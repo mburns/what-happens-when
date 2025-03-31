@@ -184,7 +184,7 @@ In many cases the URL has a special piece of text appended to it to tell the
 search engine that it came from a particular browser's URL bar.
 
 Convert non-ASCII Unicode characters in the hostname
-------------------------------------------------
+----------------------------------------------------
 
 * The browser checks the hostname for characters that are not in ``a-z``,
   ``A-Z``, ``0-9``, ``-``, or ``.``.
