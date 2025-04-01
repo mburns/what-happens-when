@@ -37,10 +37,7 @@ jobs:
         run: doc8 --ignore D001 --max-line-length 180 ./*.rst
 
       - name: Run rstcheck
-        run: rstcheck --report-level warning "$(find . -name "*.rst")"
-  
-      - name: Run rst-lint
-        run: rst-lint ./*.rst
+        run: rstcheck --report-level warning --recursive ./
 
   Semgrep:
     runs-on: ubuntu-latest
