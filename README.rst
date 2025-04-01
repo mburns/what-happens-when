@@ -453,7 +453,7 @@ responds with a response of the form::
     200 OK
     [response headers]
 
-Followed by a single newline, and then sends a payload of the HTML content of
+Followed by a single newline, and then sends a payload of the :term:`HTML` content of
 ``www.google.com``. The server may then either close the connection, or if
 headers sent by the client requested it, keep the connection open to be reused
 for further requests.
@@ -467,14 +467,14 @@ the form::
     304 Not Modified
     [response headers]
 
-and no payload, and the web browser instead retrieve the HTML from its cache.
+and no payload, and the web browser instead retrieve the :term:`HTML` from its cache.
 
-After parsing the HTML, the web browser (and server) repeats this process
-for every resource (image, CSS, favicon.ico, etc) referenced by the HTML page,
+After parsing the :term:`HTML`, the web browser (and server) repeats this process
+for every resource (image, :term:`CSS`, favicon.ico, etc) referenced by the :term:`HTML` page,
 except instead of ``GET / HTTP/1.1`` the request will be
 ``GET /$(URL relative to www.google.com) HTTP/1.1``.
 
-If the HTML referenced a resource on a different domain than
+If the :term:`HTML` referenced a resource on a different domain than
 ``www.google.com``, the web browser goes back to the steps involved in
 resolving the other domain, and follows all steps up to this point for that
 domain. The ``Host`` header in the request will be set to the appropriate
@@ -513,10 +513,10 @@ and IIS for Windows.
 Behind the scenes of the Browser
 ----------------------------------
 
-Once the server supplies the resources (HTML, CSS, JS, images, etc.)
+Once the server supplies the resources (:term:`HTML`, :term:`CSS`, :term:`JS`, images, etc.)
 to the browser it undergoes the below process:
 
-* Parsing - HTML, CSS, JS
+* Parsing - :term:`HTML`, :term:`CSS`, :term:`JS`
 * Rendering - Construct DOM Tree → Render Tree → Layout of Render Tree →
   Painting the render tree
 
@@ -525,12 +525,12 @@ Browser
 
 The browser's functionality is to present the web resource you choose, by
 requesting it from the server and displaying it in the browser window.
-The resource is usually an HTML document, but may also be a PDF,
+The resource is usually an :term:`HTML` document, but may also be a PDF,
 image, or some other type of content. The location of the resource is
 specified by the user using a URI (Uniform Resource Identifier).
 
-The way the browser interprets and displays HTML files is specified
-in the HTML and CSS specifications. These specifications are maintained
+The way the browser interprets and displays :term:`HTML` files is specified
+in the :term:`HTML` and :term:`CSS` specifications. These specifications are maintained
 by the W3C (World Wide Web Consortium) organization, which is the
 standards organization for the web.
 
@@ -554,8 +554,8 @@ The components of the browsers are:
 * **Browser engine:** The browser engine marshals actions between the UI
   and the rendering engine.
 * **Rendering engine:** The rendering engine is responsible for displaying
-  requested content. For example if the requested content is HTML, the
-  rendering engine parses HTML and CSS, and displays the parsed content on
+  requested content. For example if the requested content is :term:`HTML`, the
+  rendering engine parses :term:`HTML` and :term:`CSS`, and displays the parsed content on
   the screen.
 * **Networking:** The networking handles network calls such as HTTP requests,
   using different implementations for different platforms behind a
@@ -571,24 +571,24 @@ The components of the browsers are:
   support storage mechanisms such as localStorage, IndexedDB, WebSQL and
   FileSystem.
 
-HTML parsing
+:term:`HTML` parsing
 ------------
 
 The rendering engine starts getting the contents of the requested
 document from the networking layer. This will usually be done in 8kB chunks.
 
-The primary job of the HTML parser is to parse the HTML markup into a parse tree.
+The primary job of the :term:`HTML` parser is to parse the :term:`HTML` markup into a parse tree.
 
 The output tree (the "parse tree") is a tree of DOM element and attribute
 nodes. DOM is short for Document Object Model. It is the object presentation
-of the HTML document and the interface of HTML elements to the outside world
+of the :term:`HTML` document and the interface of :term:`HTML` elements to the outside world
 like JavaScript. The root of the tree is the "Document" object. Prior to
 any manipulation via scripting, the DOM has an almost one-to-one relation to
 the markup.
 
 **The parsing algorithm**
 
-HTML cannot be parsed using the regular top-down or bottom-up parsers.
+:term:`HTML` cannot be parsed using the regular top-down or bottom-up parsers.
 
 The reasons are:
 
@@ -608,7 +608,7 @@ The algorithm consists of two stages: tokenization and tree construction.
 
 **Actions when the parsing is finished**
 
-The browser begins fetching external resources linked to the page (CSS, images,
+The browser begins fetching external resources linked to the page (:term:`CSS`, images,
 JavaScript files, etc.).
 
 At this stage the browser marks the document as interactive and starts
@@ -619,21 +619,21 @@ set to "complete" and a "load" event is fired.
 Note there is never an "Invalid Syntax" error on an HTML page. Browsers fix
 any invalid content and go on.
 
-CSS interpretation
+:term:`CSS` interpretation
 ------------------
 
-* Parse CSS files, ``<style>`` tag contents, and ``style`` attribute
-  values using `"CSS lexical and syntax grammar"`_
-* Each CSS file is parsed into a ``StyleSheet object``, where each object
-  contains CSS rules with selectors and objects corresponding CSS grammar.
-* A CSS parser can be top-down or bottom-up when a specific parser generator
+* Parse :term:`CSS` files, ``<style>`` tag contents, and ``style`` attribute
+  values using `":term:`CSS` lexical and syntax grammar"`_
+* Each :term:`CSS` file is parsed into a ``StyleSheet object``, where each object
+  contains :term:`CSS` rules with selectors and objects corresponding :term:`CSS` grammar.
+* A :term:`CSS` parser can be top-down or bottom-up when a specific parser generator
   is used.
 
 Page Rendering
 --------------
 
 * Create a 'Frame Tree' or 'Render Tree' by traversing the DOM nodes, and
-  calculating the CSS style values for each node.
+  calculating the :term:`CSS` style values for each node.
 * Calculate the preferred width of each node in the 'Frame Tree' bottom-up
   by summing the preferred width of the child nodes and the node's
   horizontal margins, borders, and padding.
@@ -688,6 +688,17 @@ Plugins such as Flash or Java may execute as well, although not at this time on
 the Google homepage. Scripts can cause additional network requests to be
 performed, as well as modify the page or its layout, causing another round of
 page rendering and painting.
+
+.. glossary::
+
+    CSS
+      Cascading Style Sheets...
+
+    HTML
+      HyperText Markup Language...
+
+    JS
+      JavaScript (JS), is a programming language and core technology of the World Wide Web, alongside HTML and CSS
 
 .. _`Creative Commons Zero`: https://creativecommons.org/publicdomain/zero/1.0/
 .. _`"CSS lexical and syntax grammar"`: http://www.w3.org/TR/CSS2/grammar.html
