@@ -1,20 +1,20 @@
-name: Lint with write-good and doc8
+name: Lint
 
 on:
-  push:
-    branches:
-      - master
-      - main
-    paths:
-      - '*.rst'
   pull_request:
     branches:
       - master
       - main
+    paths:
+      - '**/*.rst'
   workflow_dispatch:
 
+permissions:
+  actions: read
+  contents: read
+
 jobs:
-  lint:
+  Lint:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,24 +24,49 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.13' 
+          python-version: '3.13'
+          cache: 'pip'
 
-      - name: Install doc8
+      - name: Install dependencies
         run: |
           python -m pip install -U pip setuptools wheel
-          python -m pip install doc8
-          python -m pip install -U sphinx
-          python -m pip install restructuredtext_lint
+          python -m pip install -r requirements.txt
 
       - name: Run doc8
         # D001 lines should not be longer than 79 characters
-        run: doc8 --ignore D001 --max-line-length 180 *.rst
+        run: doc8 --ignore D001 --max-line-length 180 ./*.rst
 
+      - name: Run rstcheck
+        run: rstcheck --report-level warning "$(find . -name "*.rst")"
+  
       - name: Run rst-lint
-        run: |
-          rst-lint .
+        run: rst-lint ./*.rst
 
-  style:
+  Semgrep:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python (for Semgrep CLI)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install -U pip setuptools wheel
+          python -m pip install -r requirements.txt
+
+      - name: Run Semgrep
+        run: semgrep scan --config .semgrep/rules.yaml --error
+
+  Style:
     runs-on: ubuntu-latest
 
     steps:
@@ -56,7 +81,7 @@ jobs:
 
       - name: Run write-good
         run: |
-          write-good *.rst \
+          write-good ./*.rst \
             --so \
             --thereIs \
             --cliches
