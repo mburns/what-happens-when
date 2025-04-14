@@ -38,9 +38,9 @@ jobs:
 
       - name: Run rstcheck
         run: rstcheck --report-level warning "$(find . -name "*.rst")"
-  
-      - name: Run rst-lint
-        run: rst-lint ./*.rst
+
+      - name: Run rstfmt
+        run: rstfmt --diff *.rst
 
   Semgrep:
     runs-on: ubuntu-latest
