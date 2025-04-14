@@ -474,7 +474,7 @@ for every resource (image, CSS, favicon.ico, etc) referenced by the HTML page,
 except instead of ``GET / HTTP/1.1`` the request will be
 ``GET /$(URL relative to www.google.com) HTTP/1.1``.
 
-If the HTML referenced a resource on a different domain than
+If the :term:`HTML` referenced a resource on a different domain than
 ``www.google.com``, the web browser goes back to the steps involved in
 resolving the other domain, and follows all steps up to this point for that
 domain. The ``Host`` header in the request will be set to the appropriate
@@ -513,10 +513,10 @@ and IIS for Windows.
 Behind the scenes of the Browser
 ----------------------------------
 
-Once the server supplies the resources (HTML, CSS, JS, images, etc.)
-to the browser it undergoes the below process:
+Once the server supplies the resources (:term:`HTML`, :term:`CSS`, :term:`JS`,
+images, etc.) to the browser it undergoes the below process:
 
-* Parsing - HTML, CSS, JS
+* Parsing - :term:`HTML`, :term:`CSS`, :term:`JS`
 * Rendering - Construct DOM Tree → Render Tree → Layout of Render Tree →
   Painting the render tree
 
@@ -594,22 +594,22 @@ The reasons are:
 
 * The forgiving nature of the language.
 * The fact that browsers have traditional error tolerance to support well
-  known cases of invalid HTML.
+  known cases of invalid :term:`HTML`.
 * The parsing process is reentrant. For other languages, the source doesn't
   change during parsing, but in HTML, dynamic code (such as script elements
   containing `document.write()` calls) can add extra tokens, so the parsing
   process actually modifies the input.
 
 Unable to use the regular parsing techniques, the browser utilizes a custom
-parser for parsing HTML. The parsing algorithm is described in
-detail by the HTML5 specification.
+parser for parsing :term:`HTML`. The parsing algorithm is described in
+detail by the :term:`HTML5` specification.
 
 The algorithm consists of two stages: tokenization and tree construction.
 
 **Actions when the parsing is finished**
 
 The browser begins fetching external resources linked to the page (CSS, images,
-JavaScript files, etc.).
+:term:`JavaScript` files, etc.).
 
 At this stage the browser marks the document as interactive and starts
 parsing scripts that are in "deferred" mode: those that should be
@@ -622,7 +622,7 @@ any invalid content and go on.
 CSS interpretation
 ------------------
 
-* Parse CSS files, ``<style>`` tag contents, and ``style`` attribute
+* Parse :term:`CSS` files, ``<style>`` tag contents, and ``style`` attribute
   values using `"CSS lexical and syntax grammar"`_
 * Each CSS file is parsed into a ``StyleSheet object``, where each object
   contains CSS rules with selectors and objects corresponding CSS grammar.
@@ -633,7 +633,7 @@ Page Rendering
 --------------
 
 * Create a 'Frame Tree' or 'Render Tree' by traversing the DOM nodes, and
-  calculating the CSS style values for each node.
+  calculating the :term:`CSS` style values for each node.
 * Calculate the preferred width of each node in the 'Frame Tree' bottom-up
   by summing the preferred width of the child nodes and the node's
   horizontal margins, borders, and padding.
@@ -686,6 +686,26 @@ Plugins such as Flash or Java may execute as well, although not at this time on
 the Google homepage. Scripts can cause additional network requests to be
 performed, as well as modify the page or its layout, causing another round of
 page rendering and painting.
+
+.. glossary::
+
+    CSS
+      Cascading Style Sheets (CSS) is a style sheet language used to describe
+      the presentation of a document written in HTML or XML. CSS is a
+      cornerstone technology of the World Wide Web, alongside HTML and JavaScript.
+
+    HTML
+      Hypertext Markup Language (HTML) is the standard markup language for
+      documents designed to be displayed in a web browser. It can be assisted
+      by technologies such as Cascading Style Sheets (CSS) and scripting
+      languages such as JavaScript.
+
+    JS
+      JavaScript is a programming language that is one of the core technologies
+      of the World Wide Web. JavaScript enables interactive web pages and is an
+      essential part of web applications. The vast majority of websites use it
+      for client-side page behavior, and all major web browsers have a
+      dedicated JavaScript engine to execute it.
 
 .. _`Creative Commons Zero`: https://creativecommons.org/publicdomain/zero/1.0/
 .. _`"CSS lexical and syntax grammar"`: http://www.w3.org/TR/CSS2/grammar.html
