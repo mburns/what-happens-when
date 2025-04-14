@@ -14,8 +14,8 @@ request, please!
 
 This is all licensed under the terms of the `Creative Commons Zero`_ license.
 
-Read this in `简体中文`_ (simplified Chinese), `日本語`_ (Japanese) and `한국어`_
-(Korean). NOTE: these have not been reviewed by the alex/what-happens-when
+Read this in `简体中文`_ (simplified Chinese), `日本語`_ (Japanese), `한국어`_
+(Korean) and `Spanish`_. NOTE: these have not been reviewed by the alex/what-happens-when
 maintainers.
 
 Table of Contents
@@ -184,7 +184,7 @@ In many cases the URL has a special piece of text appended to it to tell the
 search engine that it came from a particular browser's URL bar.
 
 Convert non-ASCII Unicode characters in the hostname
-------------------------------------------------
+----------------------------------------------------
 
 * The browser checks the hostname for characters that are not in ``a-z``,
   ``A-Z``, ``0-9``, ``-``, or ``.``.
@@ -641,9 +641,7 @@ Page Rendering
   above.
 * More complicated steps are taken when elements are ``floated``,
   positioned ``absolutely`` or ``relatively``, or other complex features
-  are used. See
-  http://dev.w3.org/csswg/css2/ and http://www.w3.org/Style/CSS/current-work
-  for more details.
+  are used. See `CSS2`_ and `current work`_ for more details.
 * Create layers to describe which parts of the page can be animated as a group
   without being re-rasterized. Each frame/render object is assigned to a layer.
 * Textures are allocated for each layer of the page.
@@ -687,6 +685,8 @@ page rendering and painting.
 
 .. _`Creative Commons Zero`: https://creativecommons.org/publicdomain/zero/1.0/
 .. _`"CSS lexical and syntax grammar"`: http://www.w3.org/TR/CSS2/grammar.html
+.. _`CSS2`: http://dev.w3.org/csswg/css2/
+.. _`current work`: http://www.w3.org/Style/CSS/current-work
 .. _`Punycode`: https://en.wikipedia.org/wiki/Punycode
 .. _`Ethernet`: http://en.wikipedia.org/wiki/IEEE_802.3
 .. _`WiFi`: https://en.wikipedia.org/wiki/IEEE_802.11
@@ -704,3 +704,4 @@ page rendering and painting.
 .. _`日本語`: https://github.com/tettttsuo/what-happens-when-JA
 .. _`downgrade attack`: http://en.wikipedia.org/wiki/SSL_stripping
 .. _`OSI Model`: https://en.wikipedia.org/wiki/OSI_model
+.. _`Spanish`: https://github.com/gonzaleztroyano/what-happens-when-ES
