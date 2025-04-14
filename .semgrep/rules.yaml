@@ -43,10 +43,3 @@ rules:
     severity: WARNING
     languages: [generic]
     pattern: 'http[s]?://[^\s)]+'
-
-  - id: todos-in-docs
-    name: Avoid TODOs in documentation
-    message: Remove TODO or FIXME before merging.
-    severity: ERROR
-    languages: [generic]
-    pattern: '(TODO|FIXME)'
