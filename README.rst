@@ -1,21 +1,22 @@
 What happens when...
 ====================
 
-This repository is an attempt to answer the age old interview question "What
+This repository is an attempt to answer the age-old interview question "What
 happens when you type google.com into your browser's address box and press
 enter?"
 
 Except instead of the usual story, we're going to try to answer this question
 in as much detail as possible. No skipping out on anything.
 
-This is a collaborative process, so dig in and try to help out! There's tons of
-details missing, just waiting for you to add them! So send us a pull request,
-please!
+This is a collaborative process, so dig in and try to help out! There are tons
+of details missing, just waiting for you to add them! So send us a pull
+request, please!
 
 This is all licensed under the terms of the `Creative Commons Zero`_ license.
 
-Read this in `简体中文`_ (simplified Chinese). NOTE: this has not been reviewed
-by the alex/what-happens-when maintainers.
+Read this in `简体中文`_ (simplified Chinese), `日本語`_ (Japanese), `한국어`_
+(Korean) and `Spanish`_. NOTE: these have not been reviewed by the alex/what-happens-when
+maintainers.
 
 Table of Contents
 ====================
@@ -26,17 +27,17 @@ Table of Contents
 
 The "g" key is pressed
 ----------------------
-The following sections explains all about the physical keyboard
-and the OS interrupts. But, a whole lot happens after that which
-isn't explained. When you just press "g" the browser receives the
-event and the entire auto-complete machinery kicks into high gear.
+The following sections explain the physical keyboard actions
+and the OS interrupts. When you press the key "g" the browser receives the
+event and the auto-complete functions kick in.
 Depending on your browser's algorithm and if you are in
 private/incognito mode or not various suggestions will be presented
-to you in the dropbox below the URL bar. Most of these algorithms
-prioritize results based on search history and bookmarks. You are
-going to type "google.com" so none of it matters, but a lot of code
-will run before you get there and the suggestions will be refined
-with each key press. It may even suggest "google.com" before you type it.
+to you in the dropdown below the URL bar. Most of these algorithms sort
+and prioritize results based on search history, bookmarks, cookies, and
+popular searches from the internet as a whole. As you are typing
+"google.com" many blocks of code run and the suggestions will be refined
+with each keypress. It may even suggest "google.com" before you finish typing
+it.
 
 The "enter" key bottoms out
 ---------------------------
@@ -63,11 +64,11 @@ connection, but historically has been over PS/2 or ADB connections.
   declared by the keyboard), so it gets the keycode value stored on it.
 
 - This value goes to the USB SIE (Serial Interface Engine) to be converted in
-  one or more USB packets that follows the low level USB protocol.
+  one or more USB packets that follow the low-level USB protocol.
 
 - Those packets are sent by a differential electrical signal over D+ and D-
   pins (the middle 2) at a maximum speed of 1.5 Mb/s, as an HID
-  (Human Interface Device) device is always declared to be a "low speed device"
+  (Human Interface Device) device is always declared to be a "low-speed device"
   (USB 2.0 compliance).
 
 - This serial signal is then decoded at the computer's host USB controller, and
@@ -82,16 +83,16 @@ connection, but historically has been over PS/2 or ADB connections.
   circuit through the electrostatic field of the conductive layer and
   creates a voltage drop at that point on the screen. The
   ``screen controller`` then raises an interrupt reporting the coordinate of
-  the key press.
+  the keypress.
 
-- Then the mobile OS notifies the current focused application of a press event
+- Then the mobile OS notifies the currently focused application of a press event
   in one of its GUI elements (which now is the virtual keyboard application
   buttons).
 
 - The virtual keyboard can now raise a software interrupt for sending a
   'key pressed' message back to the OS.
 
-- This interrupt notifies the current focused application of a 'key pressed'
+- This interrupt notifies the currently focused application of a 'key pressed'
   event.
 
 
@@ -109,7 +110,7 @@ the appropriate handler. Thus, the kernel is entered.
 --------------------------------------------------------
 
 The HID transport passes the key down event to the ``KBDHID.sys`` driver which
-converts the HID usage into a scancode. In this case the scan code is
+converts the HID usage into a scancode. In this case, the scan code is
 ``VK_RETURN`` (``0x0D``). The ``KBDHID.sys`` driver interfaces with the
 ``KBDCLASS.sys`` (keyboard class driver). This driver is responsible for
 handling all keyboard and keypad input in a secure manner. It then calls into
@@ -182,8 +183,8 @@ the text given in the address box to the browser's default web search engine.
 In many cases the URL has a special piece of text appended to it to tell the
 search engine that it came from a particular browser's URL bar.
 
-Convert non-ASCII Unicode characters in hostname
-------------------------------------------------
+Convert non-ASCII Unicode characters in the hostname
+----------------------------------------------------
 
 * The browser checks the hostname for characters that are not in ``a-z``,
   ``A-Z``, ``0-9``, ``-``, or ``.``.
@@ -228,7 +229,7 @@ ARP process
 -----------
 
 In order to send an ARP (Address Resolution Protocol) broadcast the network
-stack library needs the target IP address to look up. It also needs to know the
+stack library needs the target IP address to lookup. It also needs to know the
 MAC address of the interface it will use to send out the ARP broadcast.
 
 The ARP cache is first checked for an ARP entry for our target IP. If it is in
@@ -257,13 +258,13 @@ Depending on what type of hardware is between the computer and the router:
 
 Directly connected:
 
-* If the computer is directly connected to the router the router responds
+* If the computer is directly connected to the router the router response
   with an ``ARP Reply`` (see below)
 
 Hub:
 
 * If the computer is connected to a hub, the hub will broadcast the ARP
-  request out all other ports. If the router is connected on the same "wire",
+  request out of all other ports. If the router is connected on the same "wire",
   it will respond with an ``ARP Reply`` (see below).
 
 Switch:
@@ -289,8 +290,9 @@ Switch:
 Now that the network library has the IP address of either our DNS server or
 the default gateway it can resume its DNS process:
 
-* Port 53 is opened to send a UDP request to DNS server (if the response size
-  is too large, TCP will be used instead).
+* The DNS client establishes a socket to UDP port 53 on the DNS server,
+  using a source port above 1023.
+* If the response size is too large, TCP will be used instead.
 * If the local/ISP DNS server does not have it, then a recursive search is
   requested and that flows up the list of DNS servers until the SOA is reached,
   and if found an answer is returned.
@@ -422,6 +424,23 @@ TLS handshake
 * From now on the TLS session transmits the application (HTTP) data encrypted
   with the agreed symmetric key.
 
+If a packet is dropped
+----------------------
+
+Sometimes, due to network congestion or flaky hardware connections, TLS packets
+will be dropped before they get to their final destination. The sender then has
+to decide how to react. The algorithm for this is called `TCP congestion
+control`_. This varies depending on the sender; the most common algorithms are
+`cubic`_ on newer operating systems and `New Reno`_ on almost all others.
+
+* Client chooses a `congestion window`_ based on the `maximum segment size`_
+  (MSS) of the connection.
+* For each packet acknowledged, the window doubles in size until it reaches the
+  'slow-start threshold'. In some implementations, this threshold is adaptive.
+* After reaching the slow-start threshold, the window increases additively for
+  each packet acknowledged. If a packet is dropped, the window reduces
+  exponentially until another packet is acknowledged.
+
 HTTP protocol
 -------------
 
@@ -438,7 +457,7 @@ request to the server of the form::
     [other headers]
 
 where ``[other headers]`` refers to a series of colon-separated key-value pairs
-formatted as per the HTTP specification and separated by single new lines.
+formatted as per the HTTP specification and separated by single newlines.
 (This assumes the web browser being used doesn't have any bugs violating the
 HTTP spec. This also assumes that the web browser is using ``HTTP/1.1``,
 otherwise it may not include the ``Host`` header in the request and the version
@@ -467,7 +486,7 @@ headers sent by the client requested it, keep the connection open to be reused
 for further requests.
 
 If the HTTP headers sent by the web browser included sufficient information for
-the web server to determine if the version of the file cached by the web
+the webserver to determine if the version of the file cached by the web
 browser has been unmodified since the last retrieval (ie. if the web browser
 included an ``ETag`` header), it may instead respond with a request of
 the form::
@@ -475,7 +494,7 @@ the form::
     304 Not Modified
     [response headers]
 
-and no payload, and the web browser instead retrieves the HTML from its cache.
+and no payload, and the web browser instead retrieve the HTML from its cache.
 
 After parsing the HTML, the web browser (and server) repeats this process
 for every resource (image, CSS, favicon.ico, etc) referenced by the HTML page,
@@ -491,14 +510,14 @@ server name instead of ``google.com``.
 HTTP Server Request Handle
 --------------------------
 The HTTPD (HTTP Daemon) server is the one handling the requests/responses on
-the server side. The most common HTTPD servers are Apache or nginx for Linux
+the server-side. The most common HTTPD servers are Apache or nginx for Linux
 and IIS for Windows.
 
 * The HTTPD (HTTP Daemon) receives the request.
 * The server breaks down the request to the following parameters:
    * HTTP Request Method (either ``GET``, ``HEAD``, ``POST``, ``PUT``,
-     ``DELETE``, ``CONNECT``, ``OPTIONS``, or ``TRACE``). In the case of a URL
-     entered directly into the address bar, this will be ``GET``.
+     ``PATCH``, ``DELETE``, ``CONNECT``, ``OPTIONS``, or ``TRACE``). In the
+     case of a URL entered directly into the address bar, this will be ``GET``.
    * Domain, in this case - google.com.
    * Requested path/page, in this case - / (as no specific path/page was
      requested, / is the default path).
@@ -552,7 +571,7 @@ common user interface elements are:
   current documents
 * Home button that takes you to your home page
 
-**Browser High Level Structure**
+**Browser High-Level Structure**
 
 The components of the browsers are:
 
@@ -570,7 +589,7 @@ The components of the browsers are:
   platform-independent interface.
 * **UI backend:** The UI backend is used for drawing basic widgets like combo
   boxes and windows. This backend exposes a generic interface that is not
-  platform specific.
+  platform-specific.
   Underneath it uses operating system user interface methods.
 * **JavaScript engine:** The JavaScript engine is used to parse and
   execute JavaScript code.
@@ -585,12 +604,12 @@ HTML parsing
 The rendering engine starts getting the contents of the requested
 document from the networking layer. This will usually be done in 8kB chunks.
 
-The primary job of HTML parser to parse the HTML markup into a parse tree.
+The primary job of the HTML parser is to parse the HTML markup into a parse tree.
 
 The output tree (the "parse tree") is a tree of DOM element and attribute
 nodes. DOM is short for Document Object Model. It is the object presentation
 of the HTML document and the interface of HTML elements to the outside world
-like JavaScript. The root of the tree is the "Document" object. Prior of
+like JavaScript. The root of the tree is the "Document" object. Prior to
 any manipulation via scripting, the DOM has an almost one-to-one relation to
 the markup.
 
@@ -642,7 +661,7 @@ Page Rendering
 
 * Create a 'Frame Tree' or 'Render Tree' by traversing the DOM nodes, and
   calculating the CSS style values for each node.
-* Calculate the preferred width of each node in the 'Frame Tree' bottom up
+* Calculate the preferred width of each node in the 'Frame Tree' bottom-up
   by summing the preferred width of the child nodes and the node's
   horizontal margins, borders, and padding.
 * Calculate the actual width of each node top-down by allocating each node's
@@ -653,9 +672,7 @@ Page Rendering
   above.
 * More complicated steps are taken when elements are ``floated``,
   positioned ``absolutely`` or ``relatively``, or other complex features
-  are used. See
-  http://dev.w3.org/csswg/css2/ and http://www.w3.org/Style/CSS/current-work
-  for more details.
+  are used. See `CSS2`_ and `current work`_ for more details.
 * Create layers to describe which parts of the page can be animated as a group
   without being re-rasterized. Each frame/render object is assigned to a layer.
 * Textures are allocated for each layer of the page.
@@ -689,7 +706,7 @@ Window Server
 Post-rendering and user-induced execution
 -----------------------------------------
 
-After rendering has completed, the browser executes JavaScript code as a result
+After rendering has been completed, the browser executes JavaScript code as a result
 of some timing mechanism (such as a Google Doodle animation) or user
 interaction (typing a query into the search box and receiving suggestions).
 Plugins such as Flash or Java may execute as well, although not at this time on
@@ -699,13 +716,23 @@ page rendering and painting.
 
 .. _`Creative Commons Zero`: https://creativecommons.org/publicdomain/zero/1.0/
 .. _`"CSS lexical and syntax grammar"`: http://www.w3.org/TR/CSS2/grammar.html
+.. _`CSS2`: http://dev.w3.org/csswg/css2/
+.. _`current work`: http://www.w3.org/Style/CSS/current-work
 .. _`Punycode`: https://en.wikipedia.org/wiki/Punycode
 .. _`Ethernet`: http://en.wikipedia.org/wiki/IEEE_802.3
 .. _`WiFi`: https://en.wikipedia.org/wiki/IEEE_802.11
 .. _`Cellular data network`: https://en.wikipedia.org/wiki/Cellular_data_communication_protocol
 .. _`analog-to-digital converter`: https://en.wikipedia.org/wiki/Analog-to-digital_converter
 .. _`network node`: https://en.wikipedia.org/wiki/Computer_network#Network_nodes
+.. _`TCP congestion control`: https://en.wikipedia.org/wiki/TCP_congestion_control
+.. _`cubic`: https://en.wikipedia.org/wiki/CUBIC_TCP
+.. _`New Reno`: https://en.wikipedia.org/wiki/TCP_congestion_control#TCP_New_Reno
+.. _`congestion window`: https://en.wikipedia.org/wiki/TCP_congestion_control#Congestion_window
+.. _`maximum segment size`: https://en.wikipedia.org/wiki/Maximum_segment_size
 .. _`varies by OS` : https://en.wikipedia.org/wiki/Hosts_%28file%29#Location_in_the_file_system
 .. _`简体中文`: https://github.com/skyline75489/what-happens-when-zh_CN
+.. _`한국어`: https://github.com/SantonyChoi/what-happens-when-KR
+.. _`日本語`: https://github.com/tettttsuo/what-happens-when-JA
 .. _`downgrade attack`: http://en.wikipedia.org/wiki/SSL_stripping
 .. _`OSI Model`: https://en.wikipedia.org/wiki/OSI_model
+.. _`Spanish`: https://github.com/gonzaleztroyano/what-happens-when-ES
