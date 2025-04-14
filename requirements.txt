@@ -1,8 +1,8 @@
 # Documentation linting
 doc8>=0.11.2
 sphinx>=7.2.6
-restructuredtext_lint>=1.4.0
 rstcheck>=3.3.1
+rstfmt>=0.0.14
 
 # Security scanning
 semgrep>=1.45.0
